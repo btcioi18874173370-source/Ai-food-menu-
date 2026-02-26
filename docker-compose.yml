@@ -1,1 +1,28 @@
+version: '3'
+services:
+  web:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql://user:password@db:3306/aifoodmenu
+      - REDIS_URL=redis://cache:6379
+    depends_on:
+      - db
+      - cache
+  
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: aifoodmenu
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+  
+  cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
